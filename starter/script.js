@@ -74,3 +74,36 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
+
+let arr = ["a", "b", "c", "d", "e", "f", "g"]
+
+console.log(arr.slice(2));
+console.log(arr.slice(2, 5));
+console.log(arr.slice(-4));
+console.log(arr.slice(1, -4));
+const arr1 = arr.slice();
+const arr2 = [...arr];
+console.log(arr);
+console.log(arr1);
+console.log(arr2);
+
+// splice mutate original array:
+
+let arr10 = ["a", "b", "c", "d", "e", "f", "g"];
+const spliceReturns1 = arr10.splice(3);
+console.log(spliceReturns1);
+console.log(arr10);
+const pop1 = arr10.pop();
+console.log(pop1);
+console.log(arr10);
+
+console.log(arr10.concat(arr1));
+const allArrays = [...arr10, ...arr1];
+console.log(allArrays.join(" - "));
+console.log(arr10.includes("x"))
+console.log(arr10.includes("b"))
+
+for (const eachItem of arr1.entries()) {
+  console.log(eachItem);
+}
+
