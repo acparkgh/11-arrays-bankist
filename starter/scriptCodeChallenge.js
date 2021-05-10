@@ -64,9 +64,9 @@ const calcAverageHumanAge = (dogAgeArray) => {
     return dog <= 2 ? 2 * dog : 16 + dog * 4;
   }).filter((humanAge) => {
     return humanAge >= 18
-  }).reduce((acc, humanAge) => {
-    return acc + humanAge;
-  }, 0) / olderThanEighteen.length;
+  }).reduce((acc, humanAge, i, array) => {
+    return acc + humanAge / array.length;
+  }, 0);
 
   console.log(humanAges);
   console.log(olderThanEighteen);
