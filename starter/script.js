@@ -148,5 +148,5 @@ console.log(currenciesUnique);
 
 currenciesUnique.forEach((value, key, set) => {
   console.log(`${key}: ${value}`);
-  console.log(set);
+  // console.log(set);
 });
