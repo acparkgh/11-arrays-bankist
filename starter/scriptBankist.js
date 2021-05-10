@@ -81,38 +81,34 @@ const displayMovements = function (movements) {
   });
 };
 
-displayMovements(account1.movements);
-
-
 const calcDisplayBalance = function (balanceArray) {
   const currentBalance = balanceArray.reduce((acc, curVal) => {
     return acc + curVal;
   }, 0);
-
+  
   labelBalance.textContent = `${currentBalance}€`;
 };
 
-calcDisplayBalance(account1.movements);
 
-const calcDisplaySummary = function (movements) {
-
-  const income = movements.filter((move) => {
+const calcDisplaySummary = function (account) {
+  
+  const income = account.movements.filter((move) => {
     return move >= 0;
   }).reduce((acc, curVal) => {
     return acc + curVal;
-   }, 0);
+  }, 0);
   
-  const expense = movements.filter((move) => {
+  const expense = account.movements.filter((move) => {
     return move < 0;
   }).reduce((acc, curVal) => {
     return acc + curVal
   }, 0);
   
-  const interest = 1.2 / 100;
-  const interestEarned = movements.filter((move) => {
+  // const interest = 1.2 / 100;
+  const interestEarned = account.movements.filter((move) => {
     return move >= 0;
   }).map((deposit) => {
-    return deposit * interest;
+    return deposit * (account.interestRate / 100);
   }).filter((int) => {
     return int >= 1;
   }).reduce((acc, int) => {
@@ -123,24 +119,45 @@ const calcDisplaySummary = function (movements) {
   labelSumIn.textContent = `${income}€`;
   labelSumOut.textContent = `${Math.abs(expense)}€`;
   labelSumInterest.textContent = `${interestEarned}€`
- 
+  
 }
-
-calcDisplaySummary(account1.movements);
-
 
 const createUsernames = function (acctsArray) {
   acctsArray.forEach((acct) => {
     acct.username = acct.owner.toLowerCase()
-                              .split(" ")
-                              .map(name => name[0])
-                              .join("");
+    .split(" ")
+    .map(name => name[0])
+    .join("");
   });
 };
 
 createUsernames(accounts);
 
 
+
+console.log(accounts);
+
+let currentAccount;
+
+btnLogin.addEventListener("click", function (event) {
+  event.preventDefault()
+  currentAccount = accounts.find( (acct) => {
+    return acct.username === inputLoginUsername.value
+  })
+  console.log(currentAccount);
+  
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(" ")[0]}`;
+    containerApp.style.opacity = 100;
+    inputLoginUsername.value = inputLoginPin.value = "";
+    inputLoginPin.blur();
+    displayMovements(currentAccount.movements);
+    calcDisplayBalance(currentAccount.movements);
+    calcDisplaySummary(currentAccount);
+  }  
+  
+  
+})
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -154,8 +171,7 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-console.log(movements);
-
+// console.log(movements);
 
 /////////////////////////////////////////////////
 

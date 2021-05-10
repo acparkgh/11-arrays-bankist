@@ -150,3 +150,25 @@ currenciesUnique.forEach((value, key, set) => {
   console.log(`${key}: ${value}`);
   // console.log(set);
 });
+
+console.log(movements);
+
+const findMov = movements.find(mov => {
+  return mov < 0;
+})
+
+console.log(findMov);
+
+console.log(accounts);
+
+const findJessica = accounts.find((acct) => {
+  return acct.owner === 'Jessica Davis';
+})
+
+console.log(findJessica);
+
+let findJessicaDavis = {};
+for (const acct of accounts) {
+  if (acct.owner === "Jessica Davis") findJessicaDavis = { ...acct };
+};
+console.log(findJessicaDavis);
