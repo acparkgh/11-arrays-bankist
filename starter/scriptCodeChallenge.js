@@ -31,19 +31,43 @@ const katesData = [4, 1, 15, 8, 3];
 checkDogs(juliasData, katesData);
 
 
-const calcAverageHumanAge = function (dogAgeArray) {
+// const calcAverageHumanAge = function (dogAgeArray) {
+//   const humanAges = dogAgeArray.map((dog) => {
+//     return dog <= 2 ? 2 * dog : 16 + dog * 4;
+//   });
+
+//   const olderThanEighteen = humanAges.filter((humanAge) => {
+//     return humanAge >= 18
+//   });
+  
+//   const aveHumanAge = olderThanEighteen.reduce((acc, humanAge) => {
+//     return acc + humanAge;
+//   }, 0) / olderThanEighteen.length;
+    
+//   console.log(humanAges);
+//   console.log(olderThanEighteen);
+//   console.log(aveHumanAge);
+// };
+
+const calcAverageHumanAge = (dogAgeArray) => {
   const humanAges = dogAgeArray.map((dog) => {
     return dog <= 2 ? 2 * dog : 16 + dog * 4;
   });
 
-  const olderThanEighteen = humanAges.filter((humanAge) => {
+  const olderThanEighteen = dogAgeArray.map((dog) => {
+    return dog <= 2 ? 2 * dog : 16 + dog * 4;
+  }).filter((humanAge) => {
     return humanAge >= 18
   });
-  
-  const aveHumanAge = olderThanEighteen.reduce((acc, humanAge) => {
+
+  const aveHumanAge = dogAgeArray.map((dog) => {
+    return dog <= 2 ? 2 * dog : 16 + dog * 4;
+  }).filter((humanAge) => {
+    return humanAge >= 18
+  }).reduce((acc, humanAge) => {
     return acc + humanAge;
   }, 0) / olderThanEighteen.length;
-    
+
   console.log(humanAges);
   console.log(olderThanEighteen);
   console.log(aveHumanAge);
