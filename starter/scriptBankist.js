@@ -81,9 +81,64 @@ const displayMovements = function (movements) {
   });
 };
 
-displayMovements(account1.movements)
-// console.log(containerMovements.innerHTML);
+displayMovements(account1.movements);
 
+
+const calcDisplayBalance = function (balanceArray) {
+  const currentBalance = balanceArray.reduce((acc, curVal) => {
+    return acc + curVal;
+  }, 0);
+
+  labelBalance.textContent = `${currentBalance}€`;
+};
+
+calcDisplayBalance(account1.movements);
+
+const calcDisplaySummary = function (movements) {
+
+  const income = movements.filter((move) => {
+    return move >= 0;
+  }).reduce((acc, curVal) => {
+    return acc + curVal;
+   }, 0);
+  
+  const expense = movements.filter((move) => {
+    return move < 0;
+  }).reduce((acc, curVal) => {
+    return acc + curVal
+  }, 0);
+  
+  const interest = 1.2 / 100;
+  const interestEarned = movements.filter((move) => {
+    return move >= 0;
+  }).map((deposit) => {
+    return deposit * interest;
+  }).filter((int) => {
+    return int >= 1;
+  }).reduce((acc, int) => {
+    return acc + int
+  }, 0);
+  
+  
+  labelSumIn.textContent = `${income}€`;
+  labelSumOut.textContent = `${Math.abs(expense)}€`;
+  labelSumInterest.textContent = `${interestEarned}€`
+ 
+}
+
+calcDisplaySummary(account1.movements);
+
+
+const createUsernames = function (acctsArray) {
+  acctsArray.forEach((acct) => {
+    acct.username = acct.owner.toLowerCase()
+                              .split(" ")
+                              .map(name => name[0])
+                              .join("");
+  });
+};
+
+createUsernames(accounts);
 
 
 
@@ -98,6 +153,9 @@ const currencies = new Map([
 ]);
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+console.log(movements);
+
 
 /////////////////////////////////////////////////
 
