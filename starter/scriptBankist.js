@@ -226,53 +226,117 @@ btnSort.addEventListener("click", function () {
 /////////////////////////////////////////////////
 // LECTURES
 
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
-
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-const movements1 = [200, 450, 3000, 70, 1300];
-
-console.log(movements);
-console.log(movements.includes(-130))
-console.log(movements.some((mov) => { return mov < -600 }));
-
-console.log(movements.every(mov => mov > 0));
-console.log(movements1.every(mov => mov > 0));
-
-const arr = [[1, 2, 3, ["a", [11, 12], "b"]], [4, 5, 6], 7, 8];
-const arr1 = [[1, 2, 3, "a", "b"], [4, 5, 6], 7, 8];
-console.log(arr.flat());
-console.log(arr1.flat());
-console.log(arr.flat(3));
-
-console.log(accounts);
-const accountMovements = accounts.map((account) => {
+const bankDepositSum = accounts.flatMap((account) => {
   return account.movements;
-})
+}).filter((move) => {
+  return move > 0;
+}).reduce((acc, deposit) => {
+  return acc + deposit;
+}, 0);
 
-console.log(accountMovements);
-const allMovements = accountMovements.flat();
+console.log(bankDepositSum);
 
-
-console.log(allMovements);
-const totalBalance = allMovements.reduce((acc, mov) => { return acc + mov }, 0);
-console.log(totalBalance);
-
-const flatMapAccts = accounts.flatMap((account) => {
+const numDeposits1000 = accounts.flatMap((account) => {
   return account.movements;
-}).reduce((acc, deposit) => acc + deposit, 0);
+}).filter((move) => {
+  return move >= 1000;
+}).length;
 
-console.log(flatMapAccts);
+console.log(numDeposits1000);
+
+const numDeposits1001 = accounts.flatMap((account) => {
+  return account.movements;
+}).reduce((acc, deposit) => {
+  return deposit >= 1001 ? ++acc : acc;
+}, 0);
+
+console.log(numDeposits1001);
+
+// const sums = accounts.flatMap((account) => {
+const {deposits, withdrawals} = accounts.flatMap((account) => {
+  
+  return account.movements;
+}).reduce((acc, curVal) => {
+  // const move = curVal > 0 ? "deposits" : "withdrawals";
+  // acc[move] += curVal;
+  acc[ curVal > 0 ? "deposits" : "withdrawals" ] += curVal;
+  return acc;
+}, { deposits: 0, withdrawals: 0 });
+
+console.log(deposits, withdrawals);
+
+const convertTitleCase = function (title) {
+
+  const exceptions = ["a", "an", "and", "the", "but", "or", "on", "in", "with"];
+
+  const convertTitleCase = (letter) => {
+    return letter[0].toUpperCase() + letter.slice(1);
+  }
+  
+  const titleCaseSentence = title.toLowerCase().split(" ").map((word) => {
+    return exceptions.includes(word) ? word : convertTitleCase(word)
+    // if (exceptions.includes(word)) {
+    //   return word;
+    // } else {
+    //   return convertTitleCase(word);
+    // }
+  }).join(" ");
+  
+  return convertTitleCase(titleCaseSentence);
+};
+
+console.log( convertTitleCase("this is a nice title") );
+console.log( convertTitleCase("this is a LONG title but not too long") );
+console.log( convertTitleCase("and here is another title with an EXAMPLE") );
 
 
-const owners = ["Jonas", 5, "Zach", "Adam", "mary", 9, "Martha", "andrew", "#", "&", "🤗"];
-console.log(owners.sort());
-console.log(owners);
+// const currencies = new Map([
+//   ['USD', 'United States dollar'],
+//   ['EUR', 'Euro'],
+//   ['GBP', 'Pound sterling'],
+// ]);
 
-console.log(allMovements);
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movements1 = [200, 450, 3000, 70, 1300];
+
+// console.log(movements);
+// console.log(movements.includes(-130))
+// console.log(movements.some((mov) => { return mov < -600 }));
+
+// console.log(movements.every(mov => mov > 0));
+// console.log(movements1.every(mov => mov > 0));
+
+// const arr = [[1, 2, 3, ["a", [11, 12], "b"]], [4, 5, 6], 7, 8];
+// const arr1 = [[1, 2, 3, "a", "b"], [4, 5, 6], 7, 8];
+// console.log(arr.flat());
+// console.log(arr1.flat());
+// console.log(arr.flat(3));
+
+// console.log(accounts);
+// const accountMovements = accounts.map((account) => {
+//   return account.movements;
+// })
+
+// console.log(accountMovements);
+// const allMovements = accountMovements.flat();
+
+
+// console.log(allMovements);
+// const totalBalance = allMovements.reduce((acc, mov) => { return acc + mov }, 0);
+// console.log(totalBalance);
+
+// const flatMapAccts = accounts.flatMap((account) => {
+//   return account.movements;
+// }).reduce((acc, deposit) => acc + deposit, 0);
+
+// console.log(flatMapAccts);
+
+
+// const owners = ["Jonas", 5, "Zach", "Adam", "mary", 9, "Martha", "andrew", "#", "&", "🤗"];
+// console.log(owners.sort());
+// console.log(owners);
+
+// console.log(allMovements);
 
 // [ a, b ]
 // return < 0, Keep order (a, b)
@@ -291,28 +355,28 @@ console.log(allMovements);
 // });
 
 // Ascending... (1, 2, 3, 4, 5, ...)
-allMovements.sort((a, b) => {
-  return a - b   // [ 5, 3 ] 2 > 0 (switch order).  [ 3, 5 ] -2 < 0 (keep order) 
-});
-console.log(allMovements);
+// allMovements.sort((a, b) => {
+//   return a - b   // [ 5, 3 ] 2 > 0 (switch order).  [ 3, 5 ] -2 < 0 (keep order) 
+// });
+// console.log(allMovements);
 
-// Decending... (..., 5, 4, 3, 2, 1)
-allMovements.sort((a, b) => {
-  return b - a   // [ 5, 3 ] -2 < 0 (keep order).  [ 3, 5 ] 2 > 0 (switch order) 
-});
+// // Decending... (..., 5, 4, 3, 2, 1)
+// allMovements.sort((a, b) => {
+//   return b - a   // [ 5, 3 ] -2 < 0 (keep order).  [ 3, 5 ] 2 > 0 (switch order) 
+// });
 
-console.log(allMovements);
+// console.log(allMovements);
 
-const arrSort = [1300, 1350, 1250];
-arrSort.sort((a, b) => {
+// const arrSort = [1300, 1350, 1250];
+// arrSort.sort((a, b) => {
   
-  console.log(`a: ${a}`);        // 1300, 1350, 1250
-  console.log(`b: ${b}`);        // 1300, 1250, 1350
-  console.log(a - b);            // 1300, 1250, 1350
-  return a - b;                  // 1250, 1300, 1350
-});
+//   console.log(`a: ${a}`);        // 1300, 1350, 1250
+//   console.log(`b: ${b}`);        // 1300, 1250, 1350
+//   console.log(a - b);            // 1300, 1250, 1350
+//   return a - b;                  // 1250, 1300, 1350
+// });
 
-console.log(arrSort);
+// console.log(arrSort);
 
 
 /////////////////////////////////////////////////
